@@ -171,8 +171,7 @@ Make sure your `customer_orders.csv` file is in the project directory.
     
     welcome_msg = """# TalkToYourData - Sales Insight Bot
 
-Ask questions about your customer orders in natural language. I'll analyze your data and provide insights.
-Your question is translated into SQL, run against your dataset, and the results are summarized in plain English.
+Ask questions about your customer orders in natural language. I'll analyze your data and provide insights. Your question is translated into SQL, run against your dataset, and the results are summarized in plain English.
 
 ### Example Questions
 
