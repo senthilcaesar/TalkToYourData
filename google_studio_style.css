@@ -1,0 +1,630 @@
+/* ===================================
+   Google AI Studio Inspired Design
+   Clean, Modern, Professional
+   =================================== */
+
+/* Import Google's Product Sans inspired font */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Text:wght@400;500&family=Roboto:wght@300;400;500;700&display=swap');
+
+/* ===================================
+   CSS Variables - Google's Color Palette
+   =================================== */
+:root {
+    /* Google Blue */
+    --google-blue: #1a73e8;
+    --google-blue-hover: #1765cc;
+    --google-blue-light: #e8f0fe;
+    
+    /* Neutrals */
+    --grey-50: #fafafa;
+    --grey-100: #f5f5f5;
+    --grey-200: #eeeeee;
+    --grey-300: #e0e0e0;
+    --grey-400: #bdbdbd;
+    --grey-500: #9e9e9e;
+    --grey-600: #757575;
+    --grey-700: #616161;
+    --grey-800: #424242;
+    --grey-900: #212121;
+    
+    /* Text colors */
+    --text-primary: #202124;
+    --text-secondary: #5f6368;
+    --text-disabled: #80868b;
+    
+    /* Backgrounds */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-hover: #f1f3f4;
+    
+    /* Borders */
+    --border-color: #dadce0;
+    --border-hover: #d2e3fc;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    --shadow-md: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+    --shadow-lg: 0 2px 6px 2px rgba(60, 64, 67, 0.15), 0 8px 10px 1px rgba(60, 64, 67, 0.3);
+}
+
+/* Dark mode variables */
+.dark {
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --text-disabled: #5f6368;
+    --bg-primary: #202124;
+    --bg-secondary: #292a2d;
+    --bg-hover: #3c4043;
+    --border-color: #5f6368;
+}
+
+/* ===================================
+   Global Styles
+   =================================== */
+* {
+    font-family: 'Google Sans Text', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+#root {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* ===================================
+   Header - Clean & Minimal
+   =================================== */
+#header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: none;
+    height: 64px;
+    padding: 0 24px;
+}
+
+#header .MuiTypography-root {
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--text-primary);
+    letter-spacing: 0;
+}
+
+/* Optional: Add Google logo style element */
+#header::before {
+    content: "✨";
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+/* ===================================
+   Main Chat Container
+   =================================== */
+#chat-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+/* ===================================
+   Chat Messages - Google AI Studio Style
+   =================================== */
+.message-container {
+    margin: 24px 0;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.message-content {
+    border-radius: 12px;
+    padding: 16px 20px;
+    line-height: 1.6;
+    font-size: 14px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: none;
+    color: var(--text-primary);
+}
+
+/* User messages - Google Blue accent */
+.user-message .message-content {
+    background: var(--google-blue-light);
+    border: 1px solid var(--border-hover);
+    color: var(--text-primary);
+}
+
+.dark .user-message .message-content {
+    background: rgba(26, 115, 232, 0.15);
+    border-color: rgba(26, 115, 232, 0.3);
+}
+
+/* Assistant messages */
+.assistant-message .message-content {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+/* Message avatar badges */
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--google-blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* ===================================
+   Typography - Google Style
+   =================================== */
+.message-content h1 {
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0 0 16px 0;
+    line-height: 1.3;
+}
+
+.message-content h2 {
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 24px 0 12px 0;
+}
+
+.message-content h3 {
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 20px 0 8px 0;
+}
+
+.message-content p {
+    margin: 12px 0;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.message-content strong {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* ===================================
+   Code Blocks - Google AI Studio Style
+   =================================== */
+.message-content pre {
+    background: #f8f9fa !important;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    overflow-x: auto;
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.dark .message-content pre {
+    background: #292a2d !important;
+    border-color: #5f6368;
+}
+
+.message-content code {
+    color: #1967d2 !important;
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    font-size: 13px;
+}
+
+.dark .message-content code {
+    color: #8ab4f8 !important;
+}
+
+/* Inline code */
+.message-content p code {
+    background: var(--google-blue-light);
+    color: var(--google-blue);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.dark .message-content p code {
+    background: rgba(138, 180, 248, 0.15);
+    color: #8ab4f8;
+}
+
+/* SQL keywords highlighting */
+.message-content pre code {
+    color: var(--text-primary) !important;
+}
+
+/* ===================================
+   Tables - Clean Google Design
+   =================================== */
+.message-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.message-content thead {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.message-content th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.message-content td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.message-content tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.message-content tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+/* ===================================
+   Lists
+   =================================== */
+.message-content ul {
+    padding-left: 24px;
+    margin: 12px 0;
+    list-style-type: none;
+}
+
+.message-content ul li {
+    position: relative;
+    padding-left: 24px;
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.message-content ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--google-blue);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.message-content ol {
+    padding-left: 24px;
+    margin: 12px 0;
+}
+
+.message-content ol li {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+/* ===================================
+   Dividers
+   =================================== */
+.message-content hr {
+    border: none;
+    height: 1px;
+    background: var(--border-color);
+    margin: 24px 0;
+}
+
+/* ===================================
+   Status Indicators & Badges
+   =================================== */
+.message-content .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    background: var(--google-blue-light);
+    color: var(--google-blue);
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0 4px;
+}
+
+/* Emoji in messages should have consistent spacing */
+.message-content h1::before,
+.message-content h2::before,
+.message-content h3::before {
+    margin-right: 8px;
+}
+
+/* ===================================
+   Input Box - Google Material Design
+   =================================== */
+#chat-input-container {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 4px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#chat-input-container:focus-within {
+    border-color: var(--google-blue);
+    box-shadow: 0 1px 3px 0 rgba(26, 115, 232, 0.3), 0 4px 8px 3px rgba(26, 115, 232, 0.15);
+}
+
+#chat-input {
+    font-size: 14px;
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-family: 'Google Sans Text', 'Roboto', sans-serif;
+}
+
+#chat-input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Send button - Google Material Design */
+button[type="submit"] {
+    background: var(--google-blue);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    transition: background 0.2s ease, transform 0.1s ease;
+    box-shadow: none;
+}
+
+button[type="submit"]:hover {
+    background: var(--google-blue-hover);
+    transform: scale(1.05);
+}
+
+button[type="submit"]:active {
+    transform: scale(0.95);
+}
+
+/* ===================================
+   Buttons - Material Design
+   =================================== */
+button,
+.MuiButton-root {
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: none;
+    border-radius: 20px;
+    padding: 8px 24px;
+    box-shadow: none;
+    letter-spacing: 0.25px;
+}
+
+button:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+/* ===================================
+   Loading States
+   =================================== */
+.spinner {
+    color: var(--google-blue);
+}
+
+.loading-text {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* ===================================
+   Scrollbar - Minimal Google Style
+   =================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--grey-400);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--grey-500);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: var(--grey-600);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: var(--grey-500);
+}
+
+/* ===================================
+   Blockquotes & Callouts
+   =================================== */
+.message-content blockquote {
+    border-left: 4px solid var(--google-blue);
+    background: var(--google-blue-light);
+    padding: 12px 16px;
+    margin: 16px 0;
+    border-radius: 4px;
+    color: var(--text-primary);
+}
+
+.dark .message-content blockquote {
+    background: rgba(26, 115, 232, 0.1);
+}
+
+/* ===================================
+   Links
+   =================================== */
+.message-content a {
+    color: var(--google-blue);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.message-content a:hover {
+    color: var(--google-blue-hover);
+    text-decoration: underline;
+}
+
+/* ===================================
+   Welcome Screen
+   =================================== */
+.step:first-child .message-content {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    padding: 32px;
+    text-align: left;
+}
+
+.step:first-child .message-content h1 {
+    color: var(--text-primary);
+    font-size: 28px;
+    margin-bottom: 16px;
+}
+
+/* ===================================
+   Animations
+   =================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===================================
+   Chips & Tags (Google Material)
+   =================================== */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: var(--grey-200);
+    color: var(--text-primary);
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 4px;
+    transition: background 0.2s;
+}
+
+.dark .chip {
+    background: var(--grey-700);
+}
+
+.chip:hover {
+    background: var(--grey-300);
+}
+
+.dark .chip:hover {
+    background: var(--grey-600);
+}
+
+/* ===================================
+   Footer
+   =================================== */
+#chat-footer {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 16px;
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+@media (max-width: 768px) {
+    #chat-container {
+        padding: 16px 8px;
+    }
+    
+    .message-content {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    .message-content table {
+        font-size: 12px;
+    }
+    
+    .message-content th,
+    .message-content td {
+        padding: 8px 12px;
+    }
+    
+    #header {
+        padding: 0 16px;
+    }
+}
+
+/* ===================================
+   Accessibility
+   =================================== */
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--google-blue);
+    outline-offset: 2px;
+}
+
+/* ===================================
+   Special Google AI Studio Elements
+   =================================== */
+
+/* Code copy button styling */
+.code-copy-button {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.code-copy-button:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* Markdown rendering improvements */
+.message-content > *:first-child {
+    margin-top: 0;
+}
+
+.message-content > *:last-child {
+    margin-bottom: 0;
+}

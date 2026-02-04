@@ -1,0 +1,76 @@
+# ================================
+# Python
+# ================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+
+# ================================
+# Virtual Environment
+# ================================
+venv/
+.env/
+.env.*
+
+# ================================
+# OS / Editor Files
+# ================================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ================================
+# Chainlit / App Runtime
+# ================================
+.chainlit/
+chainlit.db
+logs/
+*.log
+
+# ================================
+# Databases
+# ================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ================================
+# Data Files (Sensitive / Large)
+# ================================
+*.csv
+
+# If you want to keep sample CSVs, uncomment below and remove *.csv above
+# !sample_customer_orders.csv
+
+# ================================
+# Config Files (Secrets)
+# ================================
+config.toml
+config_google_style.toml
+config_minimal.toml
+
+# ================================
+# Build / Cache
+# ================================
+.cache/
+.mypy_cache/
+.pytest_cache/
+
+# ================================
+# Public / Generated Assets
+# ================================
+public/generated/
+public/.cache/
+
+# ================================
+# Jupyter
+# ================================
+.ipynb_checkpoints/
+
