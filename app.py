@@ -8,6 +8,8 @@ from anthropic import Anthropic
 import sqlite3
 import pandas as pd
 import os
+import shutil
+from typing import List
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -18,6 +20,47 @@ client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 # Database configuration
 DB_PATH = "orders.db"
+
+# File upload configuration
+MAX_FILE_SIZE_MB = 50  # Maximum file size in MB
+ACCEPTED_MIME_TYPES = ["text/csv", "application/vnd.ms-excel", "application/csv"]
+
+def convert_csv_to_db(csv_file_path: str, output_db_path: str = None):
+    """
+    Convert a CSV file to SQLite database
+    References the logic from setup_database.py
+    """
+    if output_db_path is None:
+        output_db_path = DB_PATH
+    
+    try:
+        # Read CSV file
+        df = pd.read_csv(csv_file_path)
+        
+        if len(df) == 0:
+            return False, "CSV file is empty"
+        
+        # Create SQLite database
+        conn = sqlite3.connect(output_db_path)
+        
+        # Write data to SQLite table (replace existing table)
+        df.to_sql('orders', conn, if_exists='replace', index=False)
+        
+        # Verify the data
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM orders")
+        count = cursor.fetchone()[0]
+        
+        conn.close()
+        
+        return True, {
+            'records': count,
+            'columns': len(df.columns),
+            'column_names': list(df.columns)
+        }
+        
+    except Exception as e:
+        return False, str(e)
 
 def get_table_schema():
     """Get the database schema to provide context to the AI"""
@@ -155,21 +198,28 @@ async def start():
     
     # Check if database exists
     if not os.path.exists(DB_PATH):
-        await cl.Message(
-            content="""# Database Not Found
+        welcome_msg = """# TalkToYourData - Sales Insight Bot
 
-Please run the setup script first:
+## Getting Started
+
+### Upload a CSV File
+Use the **file upload button** (📎 paperclip icon) in the chat input below or drag & drop a CSV file. The AI agent will automatically convert it to a database!
+
+**File Requirements:**
+- Format: CSV files (`.csv`)
+- Size: Maximum 50 MB
+- Must include column headers
+
+### Or Use the Setup Script
+Run the setup script if you have a CSV file in your project directory:
 
 ```bash
 python setup_database.py
 ```
 
-Make sure your `customer_orders.csv` file is in the project directory.
-"""
-        ).send()
-        return
-    
-    welcome_msg = """# TalkToYourData - Sales Insight Bot
+---
+
+## Once Your Database is Ready
 
 Ask questions about your customer orders in natural language. I'll analyze your data and provide insights. Your question is translated into SQL, run against your dataset, and the results are summarized in plain English.
 
@@ -190,23 +240,135 @@ Ask questions about your customer orders in natural language. I'll analyze your 
 **Product Analysis**
 • Which products have the highest profit margins?
 • What are our best-selling SKUs?
+"""
+    else:
+        welcome_msg = """# TalkToYourData - Sales Insight Bot
 
-Just type your question below to get started.
+Ask questions about your customer orders in natural language. I'll analyze your data and provide insights. Your question is translated into SQL, run against your dataset, and the results are summarized in plain English.
+
+**Sales Performance**
+• What are the top 5 products by revenue?
+• Show me monthly revenue trends
+
+**Regional Analysis**
+• Which states generate the most sales?
+• What's the revenue distribution by region?
+
+**Customer Insights**
+• What's the average order value?
+• Which payment methods are most popular?
+
+**Product Analysis**
+• Which products have the highest profit margins?
+• What are our best-selling SKUs?
+
 """
     
     await cl.Message(content=welcome_msg).send()
 
 @cl.on_message
 async def main(message: cl.Message):
-    """Handle user messages and process queries"""
+    """Handle user messages and process queries or file uploads"""
     
-    user_question = message.content
+    # Check if user uploaded a file
+    if message.elements:
+        csv_files = [el for el in message.elements if el.mime in ACCEPTED_MIME_TYPES]
+        
+        if csv_files:
+            for file_element in csv_files:
+                msg = cl.Message(content="")
+                await msg.send()
+                
+                try:
+                    # Get file size in MB
+                    file_size_mb = os.path.getsize(file_element.path) / (1024 * 1024)
+                    
+                    await msg.stream_token(f"📁 **Processing CSV file:** `{file_element.name}`\n\n")
+                    await msg.stream_token(f"📏 **File size:** {file_size_mb:.2f} MB\n\n")
+                    
+                    # Validate file size
+                    if file_size_mb > MAX_FILE_SIZE_MB:
+                        await msg.stream_token(f"❌ **File too large!**\n\n")
+                        await msg.stream_token(f"The uploaded file ({file_size_mb:.2f} MB) exceeds the maximum allowed size of {MAX_FILE_SIZE_MB} MB.\n\n")
+                        await msg.stream_token(f"**Suggestions:**\n")
+                        await msg.stream_token(f"- Try filtering your data to include only recent records\n")
+                        await msg.stream_token(f"- Remove unnecessary columns\n")
+                        await msg.stream_token(f"- Split the file into smaller chunks\n")
+                        await msg.update()
+                        return
+                    
+                    await msg.stream_token("⚙️ Converting CSV to database...\n\n")
+                    
+                    # Convert CSV to database
+                    success, result = convert_csv_to_db(file_element.path)
+                    
+                    if success:
+                        await msg.stream_token(f"✅ **Successfully converted to database!**\n\n")
+                        await msg.stream_token(f"📊 **Database Statistics:**\n")
+                        await msg.stream_token(f"- **File Name**: {file_element.name}\n")
+                        await msg.stream_token(f"- **File Size**: {file_size_mb:.2f} MB\n")
+                        await msg.stream_token(f"- **Total Records**: {result['records']:,}\n")
+                        await msg.stream_token(f"- **Total Columns**: {result['columns']}\n")
+                        await msg.stream_token(f"- **Column Names**: `{', '.join(result['column_names'])}`\n\n")
+                        await msg.stream_token(f"💾 **Database Location**: `{DB_PATH}`\n\n")
+                        await msg.stream_token("---\n\n")
+                        await msg.stream_token("✨ **Ready to analyze!** You can now ask questions about your data.\n\n")
+                        await msg.stream_token("**Try these example questions:**\n")
+                        await msg.stream_token("- What are the top 5 products by revenue?\n")
+                        await msg.stream_token("- Show me the sales trend by month\n")
+                        await msg.stream_token("- Which region has the highest sales?\n")
+                    else:
+                        await msg.stream_token(f"❌ **Error converting CSV**\n\n")
+                        await msg.stream_token(f"**Error details:**\n```\n{result}\n```\n\n")
+                        await msg.stream_token(f"**Troubleshooting tips:**\n")
+                        await msg.stream_token(f"- Ensure the CSV file is properly formatted\n")
+                        await msg.stream_token(f"- Check that the file is not corrupted\n")
+                        await msg.stream_token(f"- Verify that the file contains data (not empty)\n")
+                        await msg.stream_token(f"- Make sure column headers are present\n")
+                        
+                except Exception as e:
+                    await msg.stream_token(f"❌ **Unexpected Error**\n\n")
+                    await msg.stream_token(f"```\n{str(e)}\n```\n\n")
+                    await msg.stream_token(f"Please try again or contact support if the issue persists.\n")
+                
+                await msg.update()
+            return
+        else:
+            # File uploaded but not CSV
+            if message.elements:
+                uploaded_file = message.elements[0]
+                await cl.Message(
+                    content=f"⚠️ **Invalid file type**\n\n"
+                            f"You uploaded: `{uploaded_file.name}` (type: `{uploaded_file.mime}`)\n\n"
+                            f"**Accepted formats:**\n"
+                            f"- CSV files (`.csv`)\n"
+                            f"- Maximum size: {MAX_FILE_SIZE_MB} MB\n\n"
+                            f"Please upload a valid CSV file and try again.",
+                    author="System"
+                ).send()
+                return
+    
+    # Normal chat flow - answer questions about the database
+    user_question = message.content.strip() if message.content else ""
+    
+    # If there's no text content
+    if not user_question:
+        if not message.elements:
+            await cl.Message(content="Please ask a question about your data or upload a CSV file.").send()
+        return
     
     # Create a message to stream updates
     msg = cl.Message(content="")
     await msg.send()
     
     try:
+        # First check if database exists
+        if not os.path.exists(DB_PATH):
+            await msg.stream_token("📁 **No database found yet.**\n\n")
+            await msg.stream_token("Please upload a CSV file or run `python setup_database.py` first.\n")
+            await msg.update()
+            return
+            
         # Step 1: Analyze question
         await msg.stream_token("Analyzing your question...\n\n")
         schema = get_table_schema()

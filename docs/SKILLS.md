@@ -1,9 +1,3 @@
----
-name: 'TalkToYourData SQL AI Agent'
-description: 'An intelligent assistant powered by Claude AI and Chainlit that converts natural language questions into SQL queries, executes them against your customer order database, and provides business insights in plain English.'
-version: '1.0.0'
----
-
 # SQL AI Agent Skills & Capabilities
 
 ## Overview
@@ -14,21 +8,7 @@ The **TalkToYourData SQL AI Agent** is an intelligent assistant powered by Claud
 
 ## Core Skills
 
-### 1. **CSV to Database Conversion**
-
-- **Capability**: Upload CSV files directly and convert them to SQLite databases
-- **How it works**: User uploads a CSV file in the chat window, the agent processes it and creates an SQLite database
-- **Features**:
-  - Automatic file upload handling
-  - CSV parsing and validation
-  - Dynamic table creation based on CSV structure
-  - Column type inference
-  - Data verification and row counting
-  - Support for any CSV file structure
-- **Safety feature**: Validates CSV format before conversion
-- **Output**: Returns database statistics including record count, column count, and column names
-
-### 2. **Natural Language to SQL Translation**
+### 1. **Natural Language to SQL Translation**
 
 - **Capability**: Convert human questions directly into valid SQLite queries
 - **How it works**: Uses Claude AI to understand user intent and generate syntactically correct SQL
@@ -42,7 +22,7 @@ The **TalkToYourData SQL AI Agent** is an intelligent assistant powered by Claud
   - LIMIT for result pagination
 - **Safety feature**: Only allows SELECT statements; blocks dangerous keywords (DROP, DELETE, INSERT, UPDATE, ALTER, CREATE, TRUNCATE)
 
-### 3. **Database Query Execution**
+### 2. **Database Query Execution**
 
 - **Capability**: Safely execute generated SQL queries against SQLite database
 - **Features**:
@@ -53,7 +33,7 @@ The **TalkToYourData SQL AI Agent** is an intelligent assistant powered by Claud
   - Support for up to 20 rows display with "more rows" indication
 - **Data handling**: Converts query results to pandas DataFrames for analysis
 
-### 4. **SQL Query Validation & Safety**
+### 3. **SQL Query Validation & Safety**
 
 - **Capability**: Protect database from harmful operations
 - **Validation checks**:
@@ -63,7 +43,7 @@ The **TalkToYourData SQL AI Agent** is an intelligent assistant powered by Claud
   - Error reporting for invalid queries
 - **Benefit**: Safe execution even with untrusted queries
 
-### 5. **Data Analysis & Insights Generation**
+### 4. **Data Analysis & Insights Generation**
 
 - **Capability**: Translate raw data into business-friendly insights
 - **Analysis includes**:
@@ -75,7 +55,7 @@ The **TalkToYourData SQL AI Agent** is an intelligent assistant powered by Claud
   - Notable correlations in data
 - **Output style**: Professional yet conversational
 
-### 6. **Schema Introspection**
+### 5. **Schema Introspection**
 
 - **Capability**: Automatically understand database structure
 - **Features**:
@@ -85,7 +65,7 @@ The **TalkToYourData SQL AI Agent** is an intelligent assistant powered by Claud
   - Supports dynamic schema adaptation
 - **Benefit**: Works with any customer order dataset structure
 
-### 7. **Data Formatting & Presentation**
+### 6. **Data Formatting & Presentation**
 
 - **Capability**: Display results in clear, readable formats
 - **Formats supported**:
@@ -174,18 +154,6 @@ The **TalkToYourData SQL AI Agent** is an intelligent assistant powered by Claud
 
 ## Interaction Flow
 
-### CSV Upload Flow
-
-1. **File Upload**: User uploads a CSV file in the chat window
-2. **File Processing**: Agent detects the CSV file and validates the format
-3. **CSV Parsing**: Reads the CSV and extracts column information
-4. **Database Creation**: Creates SQLite database with the CSV data
-5. **Verification**: Verifies record count and column structure
-6. **Feedback**: Returns conversion statistics to user
-7. **Ready for Queries**: Database is immediately ready for natural language queries
-
-### Question Analysis Flow
-
 1. **Question Input**: User asks a question in natural language
 2. **Schema Analysis**: Agent retrieves database structure and sample data
 3. **SQL Generation**: Claude AI generates appropriate SQL query
@@ -198,13 +166,6 @@ The **TalkToYourData SQL AI Agent** is an intelligent assistant powered by Claud
 ---
 
 ## Example Capabilities
-
-### CSV Upload
-
-- Drag & drop a CSV file with any structure
-- Automatically converts to SQLite database
-- Supports files with any number of columns or rows
-- Returns database statistics immediately
 
 ### Sales Questions
 

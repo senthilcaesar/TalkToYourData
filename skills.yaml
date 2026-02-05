@@ -7,6 +7,20 @@ agent:
   database: 'SQLite'
 
 core_skills:
+  - name: 'CSV to Database Conversion'
+    description: 'Convert uploaded CSV files to SQLite databases automatically'
+    capabilities:
+      - 'Automatic CSV file upload and processing'
+      - 'CSV to SQLite database conversion'
+      - 'Automatic table schema creation'
+      - 'Data validation and verification'
+      - 'Support for any CSV structure'
+      - 'Instant database readiness for queries'
+    safety_features:
+      - 'Validates CSV file format'
+      - 'Handles large datasets efficiently'
+      - 'Preserves data types automatically'
+
   - name: 'Natural Language to SQL Translation'
     description: 'Convert human questions directly into valid SQLite queries using Claude AI to understand user intent and generate syntactically correct SQL'
     capabilities:
