@@ -1,0 +1,276 @@
+agent:
+  name: 'TalkToYourData SQL AI Agent'
+  description: 'An intelligent assistant powered by Claude AI and Chainlit that converts natural language questions into SQL queries, executes them against your customer order database, and provides business insights in plain English.'
+  version: '1.0.0'
+  model: 'Claude Sonnet 4'
+  framework: 'Chainlit'
+  database: 'SQLite'
+
+core_skills:
+  - name: 'Natural Language to SQL Translation'
+    description: 'Convert human questions directly into valid SQLite queries using Claude AI to understand user intent and generate syntactically correct SQL'
+    capabilities:
+      - 'SELECT queries with WHERE clauses'
+      - 'Aggregations (SUM, COUNT, AVG, MIN, MAX)'
+      - 'GROUP BY for grouped analysis'
+      - 'ORDER BY for sorting and ranking'
+      - 'JOIN operations for related data'
+      - 'Date-based filtering and analysis'
+      - 'LIMIT for result pagination'
+    safety_features:
+      - 'Only allows SELECT statements'
+      - 'Blocks dangerous keywords (DROP, DELETE, INSERT, UPDATE, ALTER, CREATE, TRUNCATE)'
+
+  - name: 'Database Query Execution'
+    description: 'Safely execute generated SQL queries against SQLite database with comprehensive error handling and result formatting'
+    capabilities:
+      - 'Read-only query enforcement'
+      - 'SQL validation before execution'
+      - 'Error handling with user-friendly messages'
+      - 'Query result formatting'
+      - 'Support for up to 20 rows display with more rows indication'
+      - 'Pandas DataFrame conversion for analysis'
+
+  - name: 'SQL Query Validation & Safety'
+    description: 'Protect the database from harmful operations through multi-layer validation and security checks'
+    capabilities:
+      - 'Query must start with SELECT'
+      - 'Blocks forbidden keywords'
+      - 'SQLite syntax validation'
+      - 'Error reporting for invalid queries'
+    benefit: 'Safe execution even with untrusted queries'
+
+  - name: 'Data Analysis & Insights Generation'
+    description: 'Translate raw data into business-friendly insights with AI-powered interpretation'
+    capabilities:
+      - 'Direct answers to user questions'
+      - 'Key patterns and trends identification'
+      - 'Outlier and anomaly detection'
+      - 'Statistical insights with percentages'
+      - 'Actionable recommendations'
+      - 'Notable correlations in data'
+    output_style: 'Professional yet conversational'
+
+  - name: 'Schema Introspection'
+    description: 'Automatically understand database structure to work with any customer order dataset'
+    capabilities:
+      - 'Extracts table schema (column names and types)'
+      - 'Retrieves sample data for context'
+      - 'Provides column information to AI for better query generation'
+      - 'Supports dynamic schema adaptation'
+
+  - name: 'Data Formatting & Presentation'
+    description: 'Display results in clear, readable formats with progressive streaming updates'
+    capabilities:
+      - 'Markdown tables'
+      - 'Structured data visualization'
+      - 'Streaming display with progressive updates'
+      - 'Row count indicators'
+      - 'Readable number formatting'
+
+business_analysis_skills:
+  - name: 'Sales Performance Analysis'
+    description: 'Analyze revenue, product performance, and sales trends across time periods and categories'
+    capabilities:
+      - 'Revenue calculations and trends'
+      - 'Top products by sales volume or revenue'
+      - 'Monthly/quarterly/annual performance trends'
+      - 'Revenue distribution analysis'
+      - 'Seasonal pattern identification'
+
+  - name: 'Regional & Market Analysis'
+    description: 'Evaluate geographic performance and market penetration across regions'
+    capabilities:
+      - 'Sales by geographic region (state, country)'
+      - 'Market penetration analysis'
+      - 'Regional performance comparison'
+      - 'Geographic trend identification'
+
+  - name: 'Customer Insights'
+    description: 'Understand customer behavior, segments, and lifetime value'
+    capabilities:
+      - 'Customer order patterns'
+      - 'Average order value calculation'
+      - 'Customer segmentation'
+      - 'Purchase frequency analysis'
+      - 'Customer lifetime value estimation'
+
+  - name: 'Product Analysis'
+    description: 'Evaluate product performance, profitability, and inventory metrics'
+    capabilities:
+      - 'Product performance metrics'
+      - 'Profit margin calculations'
+      - 'Best-selling SKU identification'
+      - 'Product category analysis'
+      - 'Inventory/stock level insights'
+
+  - name: 'Payment & Transaction Analysis'
+    description: 'Analyze payment methods, transaction trends, and payment method profitability'
+    capabilities:
+      - 'Payment method popularity'
+      - 'Payment trends over time'
+      - 'Transaction value analysis'
+      - 'Payment method profitability'
+
+data_type_skills:
+  - name: 'Numeric Column Operations'
+    description: 'Perform aggregations and calculations on numeric data'
+    capabilities:
+      - 'SUM, AVG, MIN, MAX aggregations'
+      - 'Percentage and ratio calculations'
+      - 'Growth rate calculations'
+      - 'Margin/profit analysis'
+
+  - name: 'Text/Category Column Operations'
+    description: 'Analyze and group categorical data'
+    capabilities:
+      - 'GROUP BY aggregations'
+      - 'DISTINCT value identification'
+      - 'Text pattern matching'
+      - 'Category-based filtering'
+
+  - name: 'Date Column Operations'
+    description: 'Analyze temporal data and trends over time'
+    capabilities:
+      - 'Date range filtering'
+      - 'Time period aggregation'
+      - 'Seasonal analysis'
+      - 'Trend over time'
+
+  - name: 'Multi-column Operations'
+    description: 'Perform complex analysis across multiple columns and dimensions'
+    capabilities:
+      - 'Cross-tabulation and pivot analysis'
+      - 'Multi-dimensional grouping'
+      - 'Relationship analysis between columns'
+      - 'Complex WHERE conditions'
+
+question_types:
+  - name: 'Sales Questions'
+    description: 'Query sales metrics, trends, and product performance'
+    examples:
+      - 'What are the top 5 best-selling products by revenue?'
+      - 'Show me monthly sales trends for 2024'
+      - 'Which states generate the most revenue?'
+      - "What's the average order value?"
+
+  - name: 'Analysis Questions'
+    description: 'Deep dive analysis into specific business metrics'
+    examples:
+      - 'Which products have the highest profit margins?'
+      - 'How many orders per month over the last year?'
+      - "What's the distribution of payment methods?"
+      - 'Which customer segments are most profitable?'
+
+  - name: 'Comparison Questions'
+    description: 'Compare performance across different dimensions'
+    examples:
+      - 'How does Q1 performance compare to Q2?'
+      - 'Which region outperforms others?'
+      - 'Compare profitability across product categories'
+
+  - name: 'Forecasting Context Questions'
+    description: 'Identify trends and patterns for predictive insights'
+    examples:
+      - 'What are recent sales trends?'
+      - 'Show me growth patterns over the last 6 months'
+      - 'Identify seasonal patterns in our data'
+
+interaction_flow:
+  - step: 1
+    name: 'Question Input'
+    description: 'User asks a question in natural language'
+  - step: 2
+    name: 'Schema Analysis'
+    description: 'Agent retrieves database structure and sample data'
+  - step: 3
+    name: 'SQL Generation'
+    description: 'Claude AI generates appropriate SQL query'
+  - step: 4
+    name: 'Query Validation'
+    description: 'System validates SQL for safety'
+  - step: 5
+    name: 'Execution'
+    description: 'Query runs against SQLite database'
+  - step: 6
+    name: 'Result Processing'
+    description: 'Results formatted and analyzed'
+  - step: 7
+    name: 'Insight Generation'
+    description: 'Claude provides business interpretation'
+  - step: 8
+    name: 'Display'
+    description: 'Results shown with streaming updates'
+
+strengths:
+  - name: 'Accessibility'
+    description: 'Non-technical users can query data using natural language'
+  - name: 'Speed'
+    description: 'Instant SQL generation and execution'
+  - name: 'Safety'
+    description: 'Read-only operations with validation'
+  - name: 'Insights'
+    description: 'AI-powered interpretation beyond raw data'
+  - name: 'Flexibility'
+    description: 'Works with any customer order dataset'
+  - name: 'User-friendly'
+    description: 'Clear, streaming interface with explanations'
+  - name: 'Error handling'
+    description: 'Graceful error messages and suggestions'
+
+limitations:
+  query_limitations:
+    - name: 'Query Type Restriction'
+      description: 'SELECT queries only (read-only access)'
+    - name: 'No Write Operations'
+      description: 'No write/modification operations allowed'
+    - name: 'No Dangerous Operations'
+      description: 'Dangerous operations are blocked'
+    - name: 'Result Display Limit'
+      description: 'Maximum 20 rows inline display (shows count for more)'
+
+  performance_constraints:
+    - name: 'Result Pagination'
+      description: 'Results limited to prevent UI overload'
+    - name: 'Large Dataset Handling'
+      description: 'Large dataset results are capped and indicated'
+    - name: 'Real-time Analysis'
+      description: 'Real-time analysis may depend on database size'
+
+  scope_constraints:
+    - name: 'Data Source Limitation'
+      description: 'Operates only on provided customer order data'
+    - name: 'External Data Access'
+      description: 'Cannot access external data sources'
+    - name: 'Table Limitation'
+      description: 'Limited to tables in the database'
+    - name: 'File System Operations'
+      description: 'No file system operations allowed'
+
+use_cases:
+  - name: 'Business Intelligence'
+    description: 'Quick data insights without SQL knowledge'
+  - name: 'Sales Reporting'
+    description: 'On-demand sales metrics and trends'
+  - name: 'Data Exploration'
+    description: 'Discover patterns in customer data'
+  - name: 'Decision Support'
+    description: 'Data-driven decision making'
+  - name: 'Performance Monitoring'
+    description: 'Track key business metrics'
+  - name: 'Customer Analysis'
+    description: 'Understand customer behavior'
+  - name: 'Marketing Analytics'
+    description: 'Analyze customer segments and campaigns'
+
+technical_stack:
+  - name: 'AI Model'
+    description: 'Claude Sonnet 4 (Anthropic API)'
+  - name: 'Chat Framework'
+    description: 'Chainlit'
+  - name: 'Database'
+    description: 'SQLite'
+  - name: 'Data Processing'
+    description: 'Pandas'
+  - name: 'Language'
+    description: 'Python 3.8+'
